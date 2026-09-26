@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- connect-src 'none': the app cannot send your data anywhere, even if it wanted to. -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; form-action 'none'; base-uri 'none'; manifest-src 'self'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="color-scheme" content="light dark">
+  <title>PrivacyBlocker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app"><noscript>PrivacyBlocker needs JavaScript. It runs entirely in your browser.</noscript></div>
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>
