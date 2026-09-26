@@ -24,7 +24,18 @@ npm start        # http://localhost:8080
 npm test
 ```
 
-Opening `index.html` directly from disk (`file://`) won't work. Browsers block ES modules and clipboard access there, so use `npm start`, or host the folder on any static host. GitHub Pages works too: the vault stays in each device's own browser either way.
+Opening `index.html` directly from disk (`file://`) won't work. Browsers block ES modules and clipboard access there, so use `npm start` or the hosted copy.
+
+## Hosted copy (GitHub Pages)
+
+Every push to `main` runs the tests and publishes the app (only `index.html`, `styles.css`, `src/`, `icons/` and the manifest) to <https://xeoul.github.io/privacyblocker/>.
+
+- **Your data still never goes to GitHub.** Pages serves the code; the encrypted vault lives in each device's browser. Your phone and laptop keep separate vaults, so use **Settings → Download encrypted backup / Restore** to move progress between them.
+- **Install it on your phone.** In Safari, tap Share → **Add to Home Screen**. It then opens full-screen like an app.
+- The site is public, but it contains nothing personal: it's the same code as this repo.
+- All `xeoul.github.io/*` project sites share one browser origin. Only host code you trust there. The vault is encrypted either way.
+
+One-time setup: **Settings → Pages → Build and deployment → Source: GitHub Actions**. Pages from a private repo needs GitHub Pro; the alternative is making the repo public, which is safe because no personal data is in it.
 
 ## Tips
 
