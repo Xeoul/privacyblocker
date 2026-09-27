@@ -2,7 +2,7 @@
 
 The autopilot is a free scheduled GitHub Actions job. Once a day it:
 
-1. **Sends a California privacy-law deletion and opt-out request** from your opt-out Gmail to about 25 data brokers and people-search companies. It sends at most once every 180 days per broker, and finds past requests by searching your Sent mail. The list is in `brokers.json`.
+1. **Sends a California privacy-law deletion and opt-out request** from your opt-out Gmail to about 25 data brokers and people-search companies. It sends at most once every 180 days per broker, and finds past requests by searching your Sent mail. The list is in `brokers.json`. It sends at most 8 per day, so a new Gmail account isn't flagged as spam; the first round finishes in about 3 days. To change the limit, set a `MAX_SENDS_PER_RUN` variable.
 2. **Opens confirmation links** in broker emails to that inbox, including emails that land in spam, then labels each one `privacyblocker-done`.
 3. **Emails you a summary**, only when something happened: what it sent, what it confirmed, which links need your tap, and which broker replies to read.
 

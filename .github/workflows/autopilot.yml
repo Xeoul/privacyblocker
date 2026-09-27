@@ -30,6 +30,7 @@ jobs:
         env:
           AUTOPILOT_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || (vars.AUTOPILOT_MODE == 'live' && 'live' || 'off') }}
           RESEND_DAYS: ${{ vars.RESEND_DAYS }}
+          MAX_SENDS_PER_RUN: ${{ vars.MAX_SENDS_PER_RUN }}
           OPTOUT_EMAIL: ${{ secrets.OPTOUT_EMAIL }}
           OPTOUT_APP_PASSWORD: ${{ secrets.OPTOUT_APP_PASSWORD }}
           PROFILE: ${{ secrets.PROFILE }}

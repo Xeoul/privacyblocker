@@ -323,6 +323,9 @@ def run(env=os.environ) -> int:
         print(str(e))
         return 1
     resend_days = int(env.get('RESEND_DAYS') or 180)
+    # New Gmail accounts get flagged for bursts of similar mail, so the first
+    # round is spread over a few days. Preview still shows every draft.
+    max_sends = int(env.get('MAX_SENDS_PER_RUN') or 8)
     brokers, confirm_only = load_brokers()
     domains = all_domains(brokers, confirm_only)
     today = dt.date.today()
@@ -353,12 +356,16 @@ def run(env=os.environ) -> int:
                 mailbox.mark_done(folder, uid)
 
         # 2. Send requests that are due.
+        waiting = 0
         for b in brokers:
             try:
                 if mailbox.sent_recently(b['email'], resend_days):
                     continue
                 subject, body = build_request(b['name'], profile, today)
                 if mode == 'live':
+                    if len(sent) >= max_sends:
+                        waiting += 1
+                        continue
                     sender.send(b['email'], subject, body)
                     sent.append(b['name'])
                     time.sleep(2)
@@ -373,7 +380,10 @@ def run(env=os.environ) -> int:
             subj = (f'PrivacyBlocker autopilot preview: {len(drafts)} requests ready'
                     if mode == 'preview' else
                     f'PrivacyBlocker autopilot: {len(sent)} sent, {len(clicked)} confirmed, {n_attention} need you')
-            sender.send(user, subj, summary_text(mode, sent, drafts, clicked, manual, replies, errors))
+            text = summary_text(mode, sent, drafts, clicked, manual, replies, errors)
+            if waiting:
+                text += f'\n{waiting} more requests will go out on the next daily runs ({max_sends} per day).\n'
+            sender.send(user, subj, text)
     finally:
         mailbox.close()
         sender.close()
