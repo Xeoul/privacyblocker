@@ -147,7 +147,7 @@ class RunTests(unittest.TestCase):
 
     def test_live_sends_due_requests_and_confirms(self):
         with mock.patch.object(ap, 'open_link', return_value=(True, 'HTTP 200')) as ol:
-            self.assertEqual(ap.run({**ENV, 'AUTOPILOT_MODE': 'live'}), 0)
+            self.assertEqual(ap.run({**ENV, 'AUTOPILOT_MODE': 'live', 'MAX_SENDS_PER_RUN': '100'}), 0)
             ol.assert_called_once_with('https://www.spokeo.com/optout/confirm/xyz')
         brokers, _ = ap.load_brokers()
         sent = FakeSender.inst.sent
@@ -158,6 +158,13 @@ class RunTests(unittest.TestCase):
         self.assertIn('1 confirmed', summary[1])
         self.assertIn('Re: your request', summary[2])
         self.assertEqual(FakeMailbox.inst.done, [b'1', b'2'])
+
+    def test_live_caps_sends_per_run(self):
+        with mock.patch.object(ap, 'open_link', return_value=(True, 'HTTP 200')):
+            self.assertEqual(ap.run({**ENV, 'AUTOPILOT_MODE': 'live'}), 0)
+        sent = FakeSender.inst.sent
+        self.assertEqual(len([s for s in sent if s[0] != 'me@gmail.com']), 8)
+        self.assertIn('more requests will go out on the next daily runs', sent[-1][2])
 
     def test_off_and_missing_secrets(self):
         with mock.patch.object(ap, 'Mailbox', side_effect=AssertionError('should not connect')):
