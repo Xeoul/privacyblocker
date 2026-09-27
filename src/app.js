@@ -2,6 +2,7 @@ import { Vault } from './vault.js';
 import { BROKERS, CATEGORIES, REQUIREMENTS, DROP, CATALOG_VERIFIED, getBroker } from './brokers.js';
 import { STATUSES, getRecord, setStatus, nextAction, summarize, nextUp, daysUntil } from './tracker.js';
 import { buildRequest, mailtoUrl, FIELD_LABELS, DEFAULT_FIELDS } from './requests.js';
+import { autopilotProfile } from './autopilot.js';
 
 const vault = new Vault();
 const root = document.getElementById('app');
@@ -378,6 +379,12 @@ function viewSettings() {
       h('div', { class: 'row wrap' },
         h('button', { class: 'btn primary', type: 'button', onclick: download }, 'Download encrypted backup'),
         restoreControl())),
+    h('section', { class: 'card' },
+      h('h2', {}, 'Email autopilot'),
+      h('p', { class: 'muted' }, 'The autopilot runs on GitHub and emails brokers for you. It needs your details as a GitHub secret called PROFILE. This copies them in the right format from My info.'),
+      h('div', { class: 'row wrap' },
+        h('button', { class: 'btn primary', type: 'button', onclick: () => copy(autopilotProfile(vault.state), 'PROFILE copied — paste it into the GitHub secret') }, 'Copy autopilot PROFILE'),
+        extLink('https://github.com/Xeoul/privacyblocker/blob/main/autopilot/SETUP.md', 'Setup steps ↗', 'btn ghost'))),
     h('section', { class: 'card' },
       h('h2', {}, 'Change passphrase'),
       h('div', { class: 'row wrap' }, cur, nxt,

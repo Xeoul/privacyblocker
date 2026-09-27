@@ -1,0 +1,41 @@
+name: autopilot
+on:
+  schedule:
+    - cron: '17 15 * * *' # daily, ~8am California time
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'preview = email yourself the drafts only; live = send requests and open confirmation links'
+        type: choice
+        options: [preview, live]
+        default: preview
+permissions:
+  contents: read
+  actions: write # keep-alive below: stops GitHub pausing this schedule after 60 quiet days
+concurrency:
+  group: autopilot
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      # Manual runs use the mode you pick; scheduled runs use the AUTOPILOT_MODE
+      # repository variable and do nothing unless it is "live".
+      - name: Run autopilot
+        env:
+          AUTOPILOT_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || (vars.AUTOPILOT_MODE == 'live' && 'live' || 'off') }}
+          RESEND_DAYS: ${{ vars.RESEND_DAYS }}
+          OPTOUT_EMAIL: ${{ secrets.OPTOUT_EMAIL }}
+          OPTOUT_APP_PASSWORD: ${{ secrets.OPTOUT_APP_PASSWORD }}
+          PROFILE: ${{ secrets.PROFILE }}
+        run: python autopilot/autopilot.py
+      - name: Keep the schedule alive
+        if: github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/autopilot.yml/enable" --silent
