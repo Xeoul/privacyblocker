@@ -63,6 +63,17 @@ async function copy(text, label = 'Copied') {
   }
 }
 
+// Copies from a visible textarea. Selecting real on-screen text works in mobile
+// browsers (e.g. Firefox on iOS) where the async clipboard API mangles newlines.
+function copyTextarea(ta, label) {
+  ta.focus();
+  ta.setSelectionRange(0, ta.value.length);
+  let ok = false;
+  try { ok = document.execCommand('copy'); } catch { ok = false; }
+  if (ok) toast(label);
+  else copy(ta.value, label);
+}
+
 function lines(v) {
   return String(v || '').split('\n').map((s) => s.trim()).filter(Boolean);
 }
@@ -370,6 +381,9 @@ function viewSettings() {
     document.body.append(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   };
+  const profileText = autopilotProfile(vault.state);
+  const profileBox = h('textarea', { class: 'mono', readonly: true, rows: profileText.split('\n').length + 1, value: profileText, 'aria-label': 'Autopilot PROFILE' });
+  profileBox.addEventListener('focus', () => profileBox.select());
   const cur = h('input', { type: 'password', autocomplete: 'current-password', placeholder: 'Current passphrase' });
   const nxt = h('input', { type: 'password', autocomplete: 'new-password', placeholder: 'New passphrase (8+ characters)' });
   return shell('#/settings',
@@ -381,9 +395,10 @@ function viewSettings() {
         restoreControl())),
     h('section', { class: 'card' },
       h('h2', {}, 'Email autopilot'),
-      h('p', { class: 'muted' }, 'The autopilot runs on GitHub and emails brokers for you. It needs your details as a GitHub secret called PROFILE. This copies them in the right format from My info.'),
+      h('p', { class: 'muted' }, 'The autopilot runs on GitHub and emails brokers for you. It needs your details as a GitHub secret called PROFILE — these lines, built from My info. Check they look right, then copy them.'),
+      profileBox,
       h('div', { class: 'row wrap' },
-        h('button', { class: 'btn primary', type: 'button', onclick: () => copy(autopilotProfile(vault.state), 'PROFILE copied — paste it into the GitHub secret') }, 'Copy autopilot PROFILE'),
+        h('button', { class: 'btn primary', type: 'button', onclick: () => copyTextarea(profileBox, 'PROFILE copied — paste it into the GitHub secret') }, 'Copy autopilot PROFILE'),
         extLink('https://github.com/Xeoul/privacyblocker/blob/main/autopilot/SETUP.md', 'Setup steps ↗', 'btn ghost'))),
     h('section', { class: 'card' },
       h('h2', {}, 'Change passphrase'),
