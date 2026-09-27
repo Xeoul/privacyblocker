@@ -15,13 +15,18 @@ A private, local-first tool for getting your personal information off data broke
 5. **CCPA request emails.** Generates a deletion and opt-out request citing Cal. Civ. Code §§ 1798.105, .120, .121 and .130, with only the details you choose to include. It opens in your email app.
 6. **Encrypted backups.** Download the encrypted vault file and restore it on another device.
 
+## Email autopilot (free, hands-off)
+
+`autopilot/` is a scheduled GitHub Actions job. It emails about 25 brokers a California deletion request from your opt-out Gmail, opens their confirmation links, and emails you a summary. Contact addresses come from the California Data Broker Registry. Setup takes about 10 minutes from a phone: see [autopilot/SETUP.md](autopilot/SETUP.md).
+
 ## Run it
 
 Requires Node 20+.
 
 ```sh
 npm start        # http://localhost:8080
-npm test
+npm test                                   # web app
+python3 -m unittest discover -s autopilot  # autopilot
 ```
 
 Opening `index.html` directly from disk (`file://`) won't work. Browsers block ES modules and clipboard access there, so use `npm start` or the hosted copy.

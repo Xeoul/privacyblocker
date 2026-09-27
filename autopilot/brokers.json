@@ -1,0 +1,35 @@
+{
+  "_source": "Contact emails from the California Data Broker Registry (cppa.ca.gov/data_broker_registry/registry.csv, fetched 2026-09-27) unless noted 'BADBOOL'. 'domains' are the sender/link domains used to recognise confirmation emails.",
+  "brokers": [
+    { "id": "beenverified", "name": "BeenVerified (also PeopleLooker, PeopleSmart)", "email": "privacy@ltvco.com", "domains": ["beenverified.com", "ltvco.com", "peoplelooker.com", "peoplesmart.com"] },
+    { "id": "checkpeople", "name": "CheckPeople", "email": "compliance@checkpeople.com", "domains": ["checkpeople.com"] },
+    { "id": "familytreenow", "name": "FamilyTreeNow", "email": "privacy@familytreenow.com", "domains": ["familytreenow.com"] },
+    { "id": "infotracer", "name": "InfoPay (InfoTracer, PropertyChecker)", "email": "compliance@infopay.com", "domains": ["infopay.com", "infotracer.com", "propertychecker.com"] },
+    { "id": "intelius", "name": "Intelius (also US Search)", "email": "legal@intelius.com", "domains": ["intelius.com", "ussearch.com", "peopleconnect.us"] },
+    { "id": "peopleconnect", "name": "PeopleConnect (TruthFinder, Instant Checkmate)", "email": "legal@peopleconnect.us", "domains": ["peopleconnect.us", "truthfinder.com", "instantcheckmate.com"] },
+    { "id": "mylife", "name": "MyLife", "email": "privacy@mylife.com", "note": "BADBOOL", "domains": ["mylife.com"] },
+    { "id": "nuwber", "name": "Nuwber", "email": "support@nuwber.com", "domains": ["nuwber.com"] },
+    { "id": "peoplefinders", "name": "PeopleFinders", "email": "customercare@peoplefinders.com", "domains": ["peoplefinders.com"] },
+    { "id": "pipl", "name": "Pipl", "email": "privacy@pipl.com", "domains": ["pipl.com"] },
+    { "id": "privaterecords", "name": "PrivateRecords", "email": "support@privaterecords.net", "domains": ["privaterecords.net"] },
+    { "id": "searchpublicrecords", "name": "SearchPublicRecords", "email": "privacyinfo@searchpublicrecords.com", "domains": ["searchpublicrecords.com"] },
+    { "id": "mtalley", "name": "AdvancedBackgroundChecks / CyberBackgroundChecks", "email": "privacy@mtalley.zendesk.com", "domains": ["mtalley.zendesk.com", "advancedbackgroundchecks.com", "cyberbackgroundchecks.com"] },
+    { "id": "spokeo", "name": "Spokeo (also ThatsThem, FreePeopleDirectory)", "email": "jmatthes@spokeo.com", "domains": ["spokeo.com", "thatsthem.com", "freepeopledirectory.com"] },
+    { "id": "spyfly", "name": "SpyFly", "email": "privacyinfo@spyfly.com", "domains": ["spyfly.com"] },
+    { "id": "truepeoplesearch", "name": "TruePeopleSearch", "email": "privacy@truepeoplesearch.com", "domains": ["truepeoplesearch.com"] },
+    { "id": "unmask", "name": "UnMask", "email": "compliance@unmask.com", "domains": ["unmask.com"] },
+    { "id": "whitepages", "name": "Whitepages", "email": "legal@whitepages.com", "domains": ["whitepages.com"] },
+    { "id": "radaris", "name": "Radaris", "email": "customer-service@radaris.com", "note": "BADBOOL", "domains": ["radaris.com"] },
+    { "id": "usphonebook", "name": "USPhoneBook", "email": "support+optout@usphonebook.com", "note": "BADBOOL", "domains": ["usphonebook.com"] },
+    { "id": "acxiom", "name": "Acxiom", "email": "askprivacy@acxiom.com", "domains": ["acxiom.com"] },
+    { "id": "epsilon", "name": "Epsilon", "email": "privacy@epsilon.com", "domains": ["epsilon.com"] },
+    { "id": "liveramp", "name": "LiveRamp", "email": "consumercare@liveramp.com", "domains": ["liveramp.com"] },
+    { "id": "lexisnexis", "name": "LexisNexis Risk Solutions", "email": "consumer.documents@lexisnexisrisk.com", "domains": ["lexisnexisrisk.com", "lexisnexis.com"] },
+    { "id": "zoominfo", "name": "ZoomInfo", "email": "privacy@zoominfo.com", "domains": ["zoominfo.com"] }
+  ],
+  "confirm_only_domains": [
+    "clustal.org", "menstoppingviolence.org", "smartbackgroundchecks.com", "fastpeoplesearch.com",
+    "searchquarry.com", "socialcatfish.com", "veripages.com", "voterrecords.com", "privateeye.com",
+    "unite4heritage.org", "opendatausa.com", "nationalpublicdata.com", "donotcall.gov"
+  ]
+}
